@@ -1,6 +1,12 @@
 WGET = wget
+GIT = git
 
 all: impl
+clean:
+	rm -fr local/*.json local/*.out
+
+updatenightly: clean impl
+	$(GIT) add lib
 
 impl: lib/Kyuureki.pm
 
