@@ -1,0 +1,84 @@
+=head1 NAME
+
+Kyuureki - Conversion between Gregorian and Kyuureki calendar dates
+
+=head1 SYNOPSIS
+
+  use Kyuureki;
+  ($y, $m, $m_leap, $d) = gregorian_to_kyuureki 2014, 9, 12;
+  ($y, $m, $d) = kyuureki_to_gregorian 2014, 8, 0, 19;
+
+=head1 DESCRIPTION
+
+The C<Kyuureki> module exports two functions to convert a Gregorian
+calendar date into a Kyuureki (Japanese classic calendar) date, and
+vice versa.
+
+The Kyuureki is the calendar system used in Japan before calendar
+reform at January 1, Meiji 6 (1873).
+
+This module supports the dates between Gregorian 0445-01-25 (Kyuureki
+0445-01-01) and Gregorian 2101-01-28 (Kyuureki 2100-12-29).
+
+A day is identified in Kyuureki by year, month, and day numbers.
+There are 12 or 13 months in a year, 12 of them are identified by
+numbers 1-12.  The other month is referred to as a "leap month", using
+the number of the previous month.  For example, year 2012 has "leap 3"
+month between months 3 and 4.  There are 29 or 30 days in a month,
+identified by numbers 1-30.
+
+=head1 FUNCTIONS
+
+Following functions are exported:
+
+=over 4
+
+=item ($y, $m, $m_leap, $d) = gregorian_to_kyuureki ($y, $m, $d)
+
+Convert a date in Gregorian calendar into a date in Kyuureki.
+
+The arguments must be the year, month, and day numbers.  Note that
+January is month C<1>, not C<0>.
+
+It returns the year number, the month number, whether the month is a
+leap month or not, and the day number.
+
+If the input is outside of the range, a list of four C<undef> values
+is returned.
+
+=item ($y, $m, $d) = kyuureki_to_gregorian ($y, $m, $m_leap, $d)
+
+Convert a date in Kyuureki into a date in Gregorian calendar.
+
+The arguments must be the year number, the month number, whether the
+month is a leap month or not, and the day number.
+
+It returns the year, month, and day numbers.  Note that January is
+month C<1>, not C<0>.
+
+If the input is outside of the range, a list of three C<undef> values
+is returned.
+
+=back
+
+The input must be a valid Gregorian or Kyuureki date.  Otherwise an
+exception might be thrown, or an invalid date might be returned.
+
+=head1 SEE ALSO
+
+SuikaWiki:旧暦 <http://wiki.suikawiki.org/n/%E6%97%A7%E6%9A%A6>.
+
+data-locale:calendar/kyuureki-*
+<https://github.com/manakai/data-locale/blob/master/doc/calendar-kyuureki.txt>.
+
+日本暦日原典, 内田正男, 1992 (第4版).
+
+=head1 AUTHOR
+
+Wakaba <wakaba@suikawiki.org>.
+
+=head1 LICENSE
+
+Public Domain.
+
+=cut
