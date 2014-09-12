@@ -1,0 +1,14 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use Kyuureki;
+my @result = do {
+  if (@ARGV == 1 and $ARGV[0] =~ /^([0-9]+)-([0-9]+)('?)-([0-9]+)$/) {
+    kyuureki_to_gregorian (0+$1, 0+$2, $3, 0+$4);
+  } else {
+    kyuureki_to_gregorian (0+$ARGV[0], 0+$ARGV[1], $ARGV[2], 0+$ARGV[3]);
+  }
+};
+printf "%04d-%02d-%02d\n", $result[0], $result[1], $result[2];
