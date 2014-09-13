@@ -60,7 +60,7 @@ for (sort { $a cmp $b } keys %{$Data->{kyuureki_month_to_day_number}}) {
 delete $Data->{kyuureki_month_to_day_number};
 
 for (@{$Data->{kyuureki_year_to_month_types}}) {
-  $_ = (pack 'b*', substr $_, 0, 7) . (pack 'b*', substr $_.'000000', 7, 7);
+  $_ = (pack 'B8', '0'.substr $_, 0, 7) . (pack 'B8', '0'.substr $_.'000000', 7, 7);
 }
 $Data->{kyuureki_year_to_month_types} = join '', @{$Data->{kyuureki_year_to_month_types}};
 
@@ -137,7 +137,8 @@ sub gregorian_to_kyuureki ($$$) {
 
   my $mt = substr MONTH_TYPES,
       2*($y - $offset), 2;
-  $mt = (unpack 'b7', (substr $mt, 0, 1)).(unpack 'b7', (substr $mt, 1, 1));
+  $mt = (substr unpack ('B8', (substr $mt, 0, 1)), 1).
+        (substr unpack ('B8', (substr $mt, 1, 1)), 1);
 
   my $leap_month = hex substr LEAP_MONTH,
       $y - $offset, 1;
@@ -145,7 +146,7 @@ sub gregorian_to_kyuureki ($$$) {
   my $month = 1;
   {
     my $days = (substr $mt, $month-1, 1) ? 30 : 29;
-    if ($day <= $days) {
+    if ($day <= $days or $month == 13) {
       last;
     } else {
       $day -= $days;
@@ -177,7 +178,8 @@ sub kyuureki_to_gregorian ($$$$) {
       $y - $offset, 1;
   my $mt = substr MONTH_TYPES,
       2*($y - $offset), 2;
-  $mt = (unpack 'b7', (substr $mt, 0, 1)).(unpack 'b7', (substr $mt, 1, 1));
+  $mt = (substr unpack ('B8', (substr $mt, 0, 1)), 1).
+        (substr unpack ('B8', (substr $mt, 1, 1)), 1);
 
   $m++ if $leap_month and $leap_month < $m;
   $m++ if $l;
