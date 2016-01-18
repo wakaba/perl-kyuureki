@@ -12,10 +12,12 @@ open my $result_file, '>', $result_file_name
 
 local $/ = undef;
 for (split /\x0D?\x0A/, scalar <$map_file>) {
-  if (/^(\d+)-(\d+)-(\d+)\t/) {
+  if (/^(-?\d+)-(\d+)-(\d+)\t/) {
     my @result = gregorian_to_kyuureki (0+$1, 0+$2, 0+$3);
-    printf $result_file "$1-$2-$3\t%04d-%02d%s-%02d\n",
+    my $x = sprintf "$1-$2-$3\t%04d-%02d%s-%02d\n",
         $result[0], $result[1], $result[2] ? "'" : '', $result[3];
+    $x =~ s/\t-([0-9]{3})-/\t-0$1-/;
+    print $result_file $x;
   }
 }
 

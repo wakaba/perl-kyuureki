@@ -19,19 +19,20 @@ vice versa.
 The Kyuureki is the calendar system used in Japan before calendar
 reform at January 1, Meiji 6 (1873).
 
-This module supports the dates between Gregorian 0445-01-25 (Kyuureki
-0445-01-01) and Gregorian 2101-01-28 (Kyuureki 2100-12-29).
+This module supports the dates between Gregorian -0666-01-30 (Kyuureki
+-0666-01-01) and Gregorian 2101-01-28 (Kyuureki 2100-12-29).
 
-A day is identified in Kyuureki by year, month, and day numbers.
-There are 12 or 13 months in a year, 12 of them are identified by
-numbers 1-12.  The other month is referred to as a "leap month", using
-the number of the previous month.  For example, year 2012 has "leap 3"
-month between months 3 and 4.  There are 29 or 30 days in a month,
-identified by numbers 1-30.
+A day in Kyuureki is identified by a pair of year, month, and day
+numbers.  There are 12 or 13 months in a year, 12 of them are
+identified by numbers 1-12.  The other month is referred to as a "leap
+month", identified by the word "leap" (I<uruu> in Japanese) and the
+number of the previous month.  For example, year 2012 has the "leap 3"
+(I<uruu> 3) month between months 3 and 4.  There are 29 or 30 days in
+a month, identified by numbers 1-30.
 
 =head1 FUNCTIONS
 
-Following functions are exported:
+Following functions are exported by the module:
 
 =over 4
 
@@ -39,8 +40,8 @@ Following functions are exported:
 
 Convert a date in Gregorian calendar into a date in Kyuureki.
 
-The arguments must be the year, month, and day numbers.  Note that
-January is month C<1>, not C<0>.
+The arguments must be the year, month, and day numbers.  Note that the
+first month (January) is month C<1>, not C<0>.
 
 It returns the year number, the month number, whether the month is a
 leap month or not, and the day number.
@@ -55,8 +56,8 @@ Convert a date in Kyuureki into a date in Gregorian calendar.
 The arguments must be the year number, the month number, whether the
 month is a leap month or not, and the day number.
 
-It returns the year, month, and day numbers.  Note that January is
-month C<1>, not C<0>.
+It returns the year, month, and day numbers.  Note that the first
+month (January) is month C<1>, not C<0>.
 
 If the input is outside of the range, a list of three C<undef> values
 is returned.
@@ -68,7 +69,7 @@ exception might be thrown, or an invalid date might be returned.
 
 =head1 SEE ALSO
 
-SuikaWiki:旧暦 <http://wiki.suikawiki.org/n/%E6%97%A7%E6%9A%A6>.
+SuikaWiki:旧暦 <https://wiki.suikawiki.org/n/%E6%97%A7%E6%9A%A6>.
 
 data-locale:calendar/kyuureki-*
 <https://github.com/manakai/data-locale/blob/master/doc/calendar-kyuureki.txt>.
