@@ -1,12 +1,21 @@
 use strict;
 use warnings;
 
+my $type = shift;
+my $map_file_name;
+if ($type eq 'kyuureki') {
+  $map_file_name = "local/map.txt";
+} elsif ($type eq 'rkyuureki') {
+  $map_file_name = "local/rmap.txt";
+} else {
+  die "Bad type |$type|";
+}
+
 my $FirstYear;
 my $LastYear;
 
 my $Data = {};
 
-my $map_file_name = "local/map.txt";
 open my $map_file, '<', $map_file_name or die "$0: $map_file_name: $!";
 my $last_seireki_date;
 local $/ = undef;
@@ -87,13 +96,13 @@ $Data->{gregorian_month_to_offset} = [
 ];
 
 my $perl_code = q{
-package Kyuureki;
+package %%MOD%%;
 use strict;
 use warnings;
 our $VERSION = '2.0';
 use Carp qw(croak);
 
-our @EXPORT = qw(gregorian_to_kyuureki kyuureki_to_gregorian);
+our @EXPORT = qw(gregorian_to_%%NAME%% %%NAME%%_to_gregorian);
 
 sub import ($;@) {
   my $from_class = shift;
@@ -113,7 +122,7 @@ use constant LEAP_MONTH => $Data->{kyuureki_year_to_leap_month};
 use constant MIN_YEAR => $Data->{year_range}->[0];
 use constant MAX_YEAR => $Data->{year_range}->[1];
 
-sub gregorian_to_kyuureki ($$$) {
+sub gregorian_to_%%NAME%% ($$$) {
   my ($y, $m, $d) = @_;
   return (undef, undef, undef, undef)
       if $y < MIN_YEAR or MAX_YEAR + 1 < $y or ($y == MAX_YEAR + 1 and $m > 2);
@@ -166,9 +175,9 @@ sub gregorian_to_kyuureki ($$$) {
   } else {
     return ($y, $month, 0, $day);
   }
-} # gregorian_to_kyuureki
+} # gregorian_to_%%NAME%%
 
-sub kyuureki_to_gregorian ($$$$) {
+sub %%NAME%%_to_gregorian ($$$$) {
   my ($y, $m, $l, $d) = @_;
   return (undef, undef, undef)
       if $y < MIN_YEAR or
@@ -213,12 +222,22 @@ sub kyuureki_to_gregorian ($$$$) {
   }
 
   return (undef, undef, undef);
-} # kyuureki_to_gregorian
+} # %%NAME%%_to_gregorian
 
 1;
 
 ## License: Public Domain.
 };
+
+my $module_file_name;
+if ($type eq 'kyuureki') {
+  $module_file_name = 'lib/Kyuureki.pm';
+  $perl_code =~ s/%%MOD%%/Kyuureki/g;
+} elsif ($type eq 'rkyuureki') {
+  $module_file_name = 'lib/Kyuureki/Ryuukyuu.pm';
+  $perl_code =~ s/%%MOD%%/Kyuureki::Ryuukyuu/g;
+}
+$perl_code =~ s/%%NAME%%/$type/g;
 
 use Data::Dumper;
 $Data::Dumper::Sortkeys = 1;
@@ -238,7 +257,6 @@ $perl_code =~ s{\$Data->\{(\w+)\}}{
   }
 }ge;
 
-my $module_file_name = 'lib/Kyuureki.pm';
 open my $module_file, '>', $module_file_name or die "$0: $module_file_name: $!";
 print $module_file $perl_code;
 

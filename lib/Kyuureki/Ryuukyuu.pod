@@ -2,19 +2,19 @@
 
 =head1 NAME
 
-Kyuureki - Conversion between Gregorian and Kyuureki calendar dates
+Kyuureki::Ryuukyuu - Conversion between Gregorian and Okinawa Kyuureki calendar dates
 
 =head1 SYNOPSIS
 
-  use Kyuureki;
-  ($y, $m, $m_leap, $d) = gregorian_to_kyuureki 2014, 9, 12;
-  ($y, $m, $d) = kyuureki_to_gregorian 2014, 8, 0, 19;
+  use Kyuureki::Ryuukyuu;
+  ($y, $m, $m_leap, $d) = gregorian_to_rkyuureki 2014, 9, 12;
+  ($y, $m, $d) = rkyuureki_to_gregorian 2014, 8, 0, 19;
 
 =head1 DESCRIPTION
 
-The C<Kyuureki> module exports two functions to convert a Gregorian
-calendar date into a Kyuureki (Japanese classic calendar) date, and
-vice versa.
+The C<Kyuureki::Ryuukyuu> module exports two functions to convert a
+Gregorian calendar date into a Kyuureki (Japanese classic calendar)
+date as used in Okinawa (Ryuukyuu) area, and vice versa.
 
 The Kyuureki is the calendar system used in Japan before calendar
 reform at January 1, Meiji 6 (1873).
@@ -36,9 +36,9 @@ Following functions are exported by the module:
 
 =over 4
 
-=item ($y, $m, $m_leap, $d) = gregorian_to_kyuureki ($y, $m, $d)
+=item ($y, $m, $m_leap, $d) = gregorian_to_rkyuureki ($y, $m, $d)
 
-Convert a date in Gregorian calendar into a date in Kyuureki.
+Convert a date in Gregorian calendar into a date in Okinawa Kyuureki.
 
 The arguments must be the year, month, and day numbers.  Note that the
 first month (January) is month C<1>, not C<0>.
@@ -49,9 +49,9 @@ leap month or not, and the day number.
 If the input is outside of the range, a list of four C<undef> values
 is returned.
 
-=item ($y, $m, $d) = kyuureki_to_gregorian ($y, $m, $m_leap, $d)
+=item ($y, $m, $d) = rkyuureki_to_gregorian ($y, $m, $m_leap, $d)
 
-Convert a date in Kyuureki into a date in Gregorian calendar.
+Convert a date in Okinawa Kyuureki into a date in Gregorian calendar.
 
 The arguments must be the year number, the month number, whether the
 month is a leap month or not, and the day number.
@@ -74,11 +74,7 @@ SuikaWiki:旧暦 <https://wiki.suikawiki.org/n/%E6%97%A7%E6%9A%A6>.
 data-locale:calendar/kyuureki-*
 <https://github.com/manakai/data-locale/blob/master/doc/calendar-kyuureki.txt>.
 
-js-kyuureki <https://github.com/wakaba/js-kyuureki>.
-
-日本暦日原典, 内田正男, 1992 (第4版).
-
-L<Kyuureki::Ryuukyuu>.
+L<Kyuureki>.
 
 =head1 AUTHOR
 
